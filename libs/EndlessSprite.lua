@@ -1,3 +1,4 @@
+
 --[[
 
 MIT License
@@ -23,52 +24,33 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ]]
 
+EndlessSprite = Core.class(Sprite)
 
-application:setOrientation(Application.LANDSCAPE_LEFT)
+function EndlessSprite:init(imagePath)
 
-local container = Sprite.new()
+	local image1 = Bitmap.new(Texture.new(imagePath))
+	local image2 = Bitmap.new(Texture.new(imagePath))
+	
+	image2:setX(image1:getWidth())
+	
+	self:addChild(image1)
+	self:addChild(image2)
+	
+end
 
-local b1 = EndlessSprite.new("gfx/b1 320px.png")
-local b2 = EndlessSprite.new("gfx/b2 320px.png")
-local b3 = EndlessSprite.new("gfx/b3 320.png")
-local b4 = EndlessSprite.new("gfx/b4 320.png")
-
-container:addChild(b4)
-container:addChild(b3)
-container:addChild(b2)
-container:addChild(b1)
-
-
-local scaleRate = 1
-
-print((application:getDeviceWidth()*scaleRate)/container:getHeight())
-
-container:setScale((application:getDeviceWidth()*scaleRate)/container:getHeight(),
-	               (application:getDeviceWidth()*scaleRate)/container:getHeight())
-
-
-local xAnchor = 0
-
-container:setX(application:getDeviceWidth()*xAnchor)
-
-container:setY((application:getDeviceWidth()-container:getHeight())*0.5)
+function EndlessSprite:moveBy(x)
+	
+		local midX = self:getX() + self:getWidth()/2 - x
+		
+		
+		if(midX < 0) then
+			self:setX(self:getX() + self:getWidth()/2)
+		end
+		
+		self:setX(self:getX() - x)
+		
+	
 
 
 
-stage:addChild(container)
-
-local c = 4
-
-
-stage:addEventListener(Event.ENTER_FRAME,
-					   function()
-					   
-							b1:moveBy(c)
-							b2:moveBy(c*0.75)
-							b3:moveBy(c*0.5)
-							b4:moveBy(c*0.25)
-					   
-					   
-					   end
-					   
-					   )
+end
