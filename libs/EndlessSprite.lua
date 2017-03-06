@@ -24,10 +24,35 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ]]
 
+
+
+--[[
+	** ENDLESS BACKGROUND
+	 -- here is a just simple implementation of a endless beackground.
+	 -- it could be 
+
+
+]]
 EndlessSprite = Core.class(Sprite)
 
 function EndlessSprite:init(imagePath)
 
+	--[[
+		** SEAMLESS PATTERNS
+		
+		-- Images or shapes which are used to create an endless backgorund must be seamless horizantally
+		   or vertically if You prefer vertical scrolling. In addition, if you want to two dimensional scrolling 
+		   your images must be both seamless horizantally and vertically.
+		
+		-- You can find detailed information about just googling or a link which I just googled below.
+			** http://blog.spiralgraphics.biz/2010/07/what-is-seamless-texture-3d-texture.html **
+			
+		-- Width of images must be greater then the canvas width if image scrolling through horizantally.
+		
+		-- If your image width is bigger then 2 times canvas width you don't have to use duplicate image and 
+		   append to next to original image. If not just create 2 identical image and merge them. 
+	
+	]]
 	local image1 = Bitmap.new(Texture.new(imagePath))
 	local image2 = Bitmap.new(Texture.new(imagePath))
 	
@@ -40,6 +65,16 @@ end
 
 function EndlessSprite:moveBy(x)
 	
+	--[[
+			** SIMPLEST APPROACH
+			
+			-- if pictures midpoint passed its parent sprite position, just reposition by its halfwidth. 
+			   Since Two half of the picture is identicals creates an illusion which image will be 
+			   scrolling forever. 
+			-- One final side note! Images are not necesserily be identical. Two different images but seamless 
+			   with each other creates same effect. 
+			
+	]]
 		local midX = self:getX() + self:getWidth()/2 - x
 		
 		
